@@ -13,7 +13,7 @@ class CategoriesAction extends AbstractMiddleware
 
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
-        /*@var $repo \Entretien\Repository\T=CategorieRepository */
+        /*@var $repo \Entretien\Repository\TCategorieRepository */
         $repo = $this->container->get(CategorieRepository::class);
 
         $result = $repo->findAllOrderedByOrdreWithNativeConnexion();
