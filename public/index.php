@@ -9,6 +9,7 @@ chdir(BE_PATH);
 require 'vendor/autoload.php';
 
 use DI\ContainerBuilder;
+use Doctrine\DBAL\Logging\SQLLogger;
 use Zend\Expressive\Application;
 
 // Keep the global namespace clean
@@ -21,6 +22,7 @@ call_user_func(function() {
     $builder->addDefinitions($defintion);
     if (!DEV_MODE) {
         $builder->enableCompilation(BE_PATH . '/cache');
+        // $builder->enableDefinitionCache();
     }
     $container = $builder->build();
 
@@ -32,4 +34,8 @@ call_user_func(function() {
 
     // 4. Run the application
     $app->run();
+
+    if (DEV_MODE) {
+        $container->get(SQLLogger::class)->flush();
+    }
 });

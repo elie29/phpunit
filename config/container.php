@@ -2,11 +2,11 @@
 
 use Common\Middleware\GenericErrorMiddleware;
 use Common\Service\EntityManagerFactory;
+use Common\Service\FileDebugStack;
 use Common\Service\GsrAuthentication;
 use Common\Service\KsqSession;
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\Common\Cache\Cache;
-use Doctrine\DBAL\Logging\DebugStack;
 use Doctrine\DBAL\Logging\SQLLogger;
 use Doctrine\ORM\EntityManagerInterface;
 use Entretien\Repository\CategorieRepository;
@@ -40,7 +40,7 @@ return [
         // Change it to memcached later
         return require BE_PATH . '/config/cache-definition-file.php';
     },
-    SQLLogger::class => DEV_MODE ? get(DebugStack::class): null,
+    SQLLogger::class => DEV_MODE ? get(FileDebugStack::class): null,
     RouterInterface::class => factory(FastRouteRouterFactory::class),
     Application::class => factory(ApplicationFactory::class),
     'HandleExceptionMiddleware' => DEV_MODE ? get(Whoops::class) : get(GenericErrorMiddleware::class),
